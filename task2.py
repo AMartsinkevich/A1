@@ -34,14 +34,24 @@ class Animal:
     def __str__(self):
         return f"It says {self.Voice}."
 
-Cow = Animal("Cow", "Brown", "Moo")
-Cat = Animal("Cat", "Black", "Meow")
-Dog = Animal("Dog", "White", "Woof")
 
-print("Animals and the sounds they make:")
+def animal_say(animal):
+    return f"{animal.Name} is {animal.Color}. {animal}"
 
-print(Cow.Name, "is", Cow.Color + ".", Cow)
-print(Cat.Name, "is", Cat.Color + ".", Cat)
-print(Dog.Name, "is", Dog.Color + ".", Dog)
 
-print("\n")
+def main():
+
+    Cow = Animal("Cow", "Brown", "Moo")
+    Cat = Animal("Cat", "Black", "Meow")
+    Dog = Animal("Dog", "White", "Woof")
+
+    print("Animals and the sounds they make:")
+
+    print(animal_say(Cow))
+    print(animal_say(Cat))
+    print(animal_say(Dog))
+
+    print("\n")
+
+if __name__ == "__main__":
+    main()
