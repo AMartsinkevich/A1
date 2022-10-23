@@ -35,6 +35,10 @@ print('-' * 80)
 print("\n")
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.keys import Keys
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
 import random
@@ -47,33 +51,65 @@ user_agents_list = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Edge/18.17763"
 ]
 
-options = webdriver.ChromeOptions()
+options = Options()
+options.add_argument("start-maximized")
 options.add_argument(f"user-agent={random.choice(user_agents_list)}")
 
-driver = webdriver.Chrome(
-    executable_path="./webdriver/chromedriver",
-    options=options
-)
-driver.maximize_window()
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
 
 try:
     print("Opening URL...")
     driver.get(url=url)
-    time.sleep(5)
-    driver.save_screenshot("a1.png")
-    print("Scrolling to 'Товары по акции'...")
-    driver.execute_script("return arguments[0].scrollIntoView();", driver.find_element(By.XPATH, "//h2[text()='Товары по акции']"))
-    time.sleep(5)
-    driver.save_screenshot("a2.png")
-    print("Collecting list of items...")
-    installment_button = driver.find_elements(By.ID, "promo-product-button_0")
-    print("Choosing random one...")
-    random.choice(installment_button).click()
-    time.sleep(5)
-    driver.save_screenshot("a3.png")
-    print("Closing...")
     time.sleep(2)
+    driver.save_screenshot("a1_opening_url.png")
+
+    print("Scrolling to promotions...")
+    driver.execute_script("return arguments[0].scrollIntoView();", driver.find_element(By.XPATH, "//h2[text()='Товары по акции']"))
+    time.sleep(2)
+    driver.save_screenshot("a2_scrolling_to_promotions.png")
+
+    print("Collecting list of items...")
+    installment_buttons = driver.find_elements(By.ID, "promo-product-button_0")
+
+    print("Choosing random one...")
+    driver.execute_script("return arguments[0].scrollIntoView();", driver.find_element(By.ID, "promo-product-button_0"))
+    time.sleep(2)
+    driver.save_screenshot("a3_scrolling_to_promotion_buttons.png")
+
+    random.choice(installment_buttons).click()
+    time.sleep(2)
+    driver.save_screenshot("a4_choosing_random_promotion.png")
+
+    print("Scrolling to price block...")
+    driver.execute_script("return arguments[0].scrollIntoView();", driver.find_element(By.CLASS_NAME, "price-block"))
+    time.sleep(2)
+    driver.save_screenshot("a5_scrolling_to_price_block.png")
+    
+    print("Opening installment list...")
+    driver.find_element(By.XPATH, "//span[@role='combobox']").click()
+    time.sleep(2)
+    driver.save_screenshot("a6_opening_installment_list.png")
+
+    print("Selecting installment plan...")
+    plan_selector = driver.find_element(By.ID, "priceBlock_selector_2")
+    print("-" * 80)
+    print(plan_selector.get_attribute("innerHTML").strip().replace("&nbsp;", " "))
+    print("-" * 80)
+    print(plan_selector.get_attribute("data-note").replace("<br/>", "\n"))
+    print("-" * 80)
+    plan_selector_value = plan_selector.get_property("value")
+    driver.find_element(By.XPATH, f"//li[contains(@id, '{plan_selector_value}')]").click()
+    time.sleep(2)
+    driver.save_screenshot("a7_selecting_installment_plan.png")
+
+    print("Navigating to shopping cart...")
+    driver.find_element(By.XPATH, "//span[@role='combobox']").send_keys(Keys.TAB, Keys.ENTER)
+    time.sleep(2)
+    driver.save_screenshot("a8_navigating_to_shopping_cart.png")
+
+    print("Closing...")
+
 
 except Exception as ex:
     print(ex)
