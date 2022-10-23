@@ -92,6 +92,8 @@ try:
     driver.save_screenshot("a6_opening_installment_list.png")
 
     print("Selecting installment plan...")
+    print("-" * 80)
+    print(driver.find_element(By.XPATH, "//h1[@class='h h--1 pdp-header-heading']").get_attribute("innerHTML"))
     plan_selector = driver.find_element(By.ID, "priceBlock_selector_2")
     print("-" * 80)
     print(plan_selector.get_attribute("innerHTML").strip().replace("&nbsp;", " "))
