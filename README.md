@@ -14,8 +14,8 @@ You need to create a new list containing Apple brand models.
 ## Task 2
 
 You need to create an Animal class that has the attributes Name (type of animal), Color (its color) and Voice (sound emitted).
-Write a function that returns a string like "It says <Voice>.", where <Voice> is a unique attribute of the Animal class.
-Set three instances of the Cow, Cat, Dog class with unique attributes for each. For each instance, output a string like "<Name> is <Color>. It says <Voice>."
+Write a function that returns a string like "It says \<Voice\>.", where \<Voice\> is a unique attribute of the Animal class.
+Set three instances of the Cow, Cat, Dog class with unique attributes for each. For each instance, output a string like "\<Name\> is \<Color\>. It says \<Voice\>."
 
 ## Task 3
 
