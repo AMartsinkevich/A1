@@ -18,9 +18,9 @@ class TestInstallmentOfferFlow:
         current_url, phone_model, installment_plan_duration, installment_plan_details = promotion_page.choose_installment_offer()
         print(f"\n\nPhone: {phone_model}\nInstallment: {installment_plan_duration}\nMore details: {installment_plan_details}\n")
         assert '/shop/phones/' in current_url, 'Phone page has been changed or did not load'
-        assert '6 мес' in installment_plan_duration, 'Installment plan duration has been chanched or not found'
+        assert '6 мес' in installment_plan_duration, 'Installment plan duration has been changed or not found'
 
         current_url = promotion_page.navigate_to_shopping_cart()
-        assert "/asmp/" in current_url, 'Shopping card page has been changed or did not load'
+        assert "/asmp/" in current_url, 'Shopping cart page has been changed or did not load'
 
 
